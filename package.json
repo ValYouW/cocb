@@ -1,0 +1,11 @@
+{
+  "name": "cocb",
+  "version": "0.0.1",
+  "description": "Use current async Error/Callback functions sequentially withouth promisifying them",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ValYouW",
+  "license": "MIT"
+}
