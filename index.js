@@ -1,5 +1,10 @@
 var COCB = require('./cocb.js');
 
-module.exports = function(genFn) {
-	return new COCB(genFn);
+module.exports = function(that, genFn) {
+	if (typeof genFn === 'undefined') {
+		genFn = that;
+		that = null;
+	}
+
+	return new COCB(genFn, that);
 };

@@ -1,10 +1,11 @@
 class COCB {
-	constructor(genFn) {
+	constructor(genFn, that) {
 		if (typeof genFn !== 'function' || genFn.constructor.name !== 'GeneratorFunction') {
 			throw new Error('cocb must be called with a generator function');
 		}
 
 		this.genFn = genFn;
+		this.useAsThis = that || this;
 		this.iterator = null;
 		this.cbs = 0;
 		this.values = null;
@@ -29,9 +30,11 @@ class COCB {
 	start() {
 		// Call the generator function
 		try {
-			this.iterator = this.genFn((err, data) => { this.cb(err, data); });
+			this.iterator = this.genFn.call(this.useAsThis, (err, data) => {
+				this.cb(err, data);
+			});
 			this.next();
-		} catch(e) {
+		} catch (e) {
 			this.errorHandler(e);
 		}
 	}
@@ -49,7 +52,7 @@ class COCB {
 			// then "checkResult" will get called with the old previous "lastYieldResult" which is not good...
 			this.lastYieldResult = null;
 			this.lastYieldResult = this.iterator.next(arg);
-		} catch(e) {
+		} catch (e) {
 			this.handleError(e);
 			return;
 		}
