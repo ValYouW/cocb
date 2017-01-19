@@ -35,7 +35,7 @@ class COCB {
 			});
 			this.next();
 		} catch (e) {
-			this.errorHandler(e);
+			this.errorHandler.call(this.useAsThis, e);
 		}
 	}
 
@@ -71,7 +71,7 @@ class COCB {
 	}
 
 	handleError(err) {
-		this.errorHandler(err);
+		this.errorHandler.call(this.useAsThis, err);
 		this.iterator.return(); // Terminate the generator
 	}
 
