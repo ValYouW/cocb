@@ -72,7 +72,10 @@ class COCB {
 
 	handleError(err) {
 		this.errorHandler.call(this.useAsThis, err);
-		this.iterator.return(); // Terminate the generator
+		// In case cb with error called synchronously we can't terminate the generator now, need to wait for next tick
+		process.nextTick(() => {
+			this.iterator.return(); // Terminate the generator
+		})
 	}
 
 	/**
