@@ -61,6 +61,11 @@ class COCB {
 	}
 
 	checkResult() {
+		if (this.lastYieldResult && this.lastYieldResult.value instanceof Promise) {
+			this.handlePromise(this.lastYieldResult.value);
+			return;
+		}
+
 		// In order to continue we must have both a lastYieldResult and a value (if the user called our "cb" before he called
 		// yield we could have a value but no lastYieldResult.
 		if (!this.lastYieldResult || this.values.length < 1) {
@@ -68,6 +73,15 @@ class COCB {
 		}
 
 		this.next(this.values[0]);
+	}
+
+	handlePromise(p) {
+		p.then(res => {
+			this.values.push(res);
+			this.next(res);
+		}).catch(err => {
+			this.handleError(err);
+		})
 	}
 
 	handleError(err) {
