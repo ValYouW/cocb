@@ -1,6 +1,6 @@
 {
   "name": "cocb",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Use current async Error/Callback functions sequentially withouth promisifying them",
   "main": "index.js",
   "scripts": {
